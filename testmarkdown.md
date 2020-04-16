@@ -7,21 +7,28 @@ output:
 
 
 
+
+
 # Source the R2 change function
+
 
 
 ```r
 source("dR2func.R")
 ```
 
+
 # Read the data-file
+
 
 
 ```r
 dat<-read.csv2("dat.csv")
 ```
 
+
 # Try sourcing also the bootstrapping process
+
 
 
 ```r
@@ -47,3 +54,11 @@ describe(boot.dR2,fast=T)
 ##    vars   n mean   sd min  max range   se
 ## X1    1 100 2.08 0.78 0.7 4.29   3.6 0.08
 ```
+
+
+---
+title: "testmarkdown.R"
+author: "vjilm"
+date: "2020-04-16"
+---
+
