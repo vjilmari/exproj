@@ -7,31 +7,43 @@ output:
 
 
 
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+# Source the R2 change function
 
 
 ```r
-summary(cars)
+source("dR2func.R")
+```
+
+# Read the data-file
+
+
+```r
+dat<-read.csv2("dat.csv")
+```
+
+# Try sourcing also the bootstrapping process
+
+
+```r
+library(dplyr)
+library(psych)
+set.seed(5125)
+
+n.bootstraps<-100
+
+boot.dR2<-rep(NA,n.bootstraps)
+
+for(i in 1:n.bootstraps){
+  boot.dat<-sample_n(tbl=dat,size = nrow(dat),replace = T)
+  boot.dR2[i]<-dR2(model1="y~x+z",
+      model2="y~x+z+x:z",
+      data=boot.dat)
+}
+
+describe(boot.dR2,fast=T)
 ```
 
 ```
-##      speed           dist       
-##  Min.   : 4.0   Min.   :  2.00  
-##  1st Qu.:12.0   1st Qu.: 26.00  
-##  Median :15.0   Median : 36.00  
-##  Mean   :15.4   Mean   : 42.98  
-##  3rd Qu.:19.0   3rd Qu.: 56.00  
-##  Max.   :25.0   Max.   :120.00
+##    vars   n mean   sd min  max range   se
+## X1    1 100 2.08 0.78 0.7 4.29   3.6 0.08
 ```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-![](testmarkdown_files/figure-html/pressure-1.png)<!-- -->
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
